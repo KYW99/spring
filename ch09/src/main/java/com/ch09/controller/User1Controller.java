@@ -4,6 +4,7 @@ import com.ch09.dto.User1DTO;
 import com.ch09.entity.User1;
 import com.ch09.service.User1Service;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,7 @@ public class User1Controller {
 
     @ResponseBody
     @PostMapping("/user1")
-    public ResponseEntity register(@RequestBody User1DTO user1DTO){
+    public ResponseEntity register(@RequestBody @Valid User1DTO user1DTO){
         log.info(user1DTO);
         User1 savedUser1 =  user1Service.insertUser1(user1DTO);
         return ResponseEntity
@@ -45,8 +46,10 @@ public class User1Controller {
     }
 
     @PutMapping("/user1")
-    public ResponseEntity modify(@RequestBody User1DTO user1DTO){
+    public ResponseEntity modify(@RequestBody @Valid User1DTO user1DTO) {
         log.info(user1DTO);
+
+        // uid를 사용해서 해당 사용자 정보 수정 로직 추가
         User1 modifiedUser1 = user1Service.updateUser1(user1DTO);
 
         return ResponseEntity
