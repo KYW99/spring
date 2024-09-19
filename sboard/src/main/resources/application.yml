@@ -1,0 +1,51 @@
+logging:
+    file:
+        name: /logs/sboard.log
+    level:
+        jdbc:
+            resultsettable: info
+            sqlonly: info
+            sqltiming: info
+        org:
+            hibernate:
+                jdbc:
+                    bind: trace
+                sql: debug
+        root: info
+server:
+    port: 8080
+    servlet:
+        context-path: /sboard
+spring:
+    application:
+        name: ch10
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: 1234
+        url: jdbc:mysql://localhost:3306/jboard
+        username: root
+    devtools:
+        livereload:
+            enabled: true
+    jpa:
+        database: mysql
+        hibernate:
+            ddl-auto: update
+            naming:
+                physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        properties:
+            hibernate:
+                format_sql: true
+                show_sql: true
+
+    mail:
+        host: smtp.gmail.com # Gmail 사용 시
+        port: 587
+        username: dnjsrldus01@gmail.com  # 자신의 Gmail 주소
+        password: wzsr jqxe gpah auat  # Gmail 계정 비밀번호 또는 앱 비밀번호
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true

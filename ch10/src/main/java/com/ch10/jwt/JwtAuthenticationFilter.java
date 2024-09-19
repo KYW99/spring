@@ -18,28 +18,27 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final  JwtProvider jwtProvider;
+    private final JwtProvider jwtProvider;
 
     private static final String AUTH_HEADER = "Authorization";
-    private static final String TOKEN_PREFIX = "BEARER ";
+    private static final String TOKEN_PREFIX = "Bearer";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        // 요청 주소에서 마지막 문자열 추출
-        String uri = request.getRequestURI();
-        int i = uri.lastIndexOf("/");
-        String path = uri.substring(i);
-        log.info("here1 - " + path);
-        
+        // 요청주소에서 마지막 문자열 추출
+        //String uri = request.getRequestURI();
+        //int i = uri.lastIndexOf("/");
+        //String path = uri.substring(i);
+        //log.info("here1 - " + path);
+
         // 토큰 추출
-        String header = request.getHeader("");
+        String header = request.getHeader(AUTH_HEADER);
         log.info("here2 - " + header);
 
         String token = null;
-
         if(header != null && header.startsWith(TOKEN_PREFIX)) {
-            token = header.substring(TOKEN_PREFIX.length());
+            token = header.substring(TOKEN_PREFIX.length()).trim();
         }
         log.info("here3 - " + token);
 
@@ -48,7 +47,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             try {
                 jwtProvider.validateToken(token);
-                
+
                 // 토큰이 이상없으면 시큐리티 인증 처리
                 Authentication authentication = jwtProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -59,13 +58,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.getWriter().write(e.getMessage());
                 log.info("here5 - " + e.getMessage());
-                return; // 처리 종료
+                return; // 처리종료
             }
         }
 
         log.info("here6...");
-        
         filterChain.doFilter(request, response);
-
     }
 }

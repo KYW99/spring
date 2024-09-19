@@ -1,18 +1,20 @@
 package com.ch10.dto;
 
 import com.ch10.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class UserDTO {
-
     private String uid;
+
     private String pass;
+
     private String name;
     private String birth;
     private String role;
@@ -27,5 +29,4 @@ public class UserDTO {
                 .role(role)
                 .build();
     }
-
 }

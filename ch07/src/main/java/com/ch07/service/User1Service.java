@@ -6,18 +6,21 @@ import com.ch07.repository.User1Repository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class User1Service {
 
     // 생성자 주입
     private final User1Repository user1Repository;
+
 
     public void insertUser1(User1DTO user1DTO) {
 

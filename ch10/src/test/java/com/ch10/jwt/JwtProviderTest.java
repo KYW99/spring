@@ -15,13 +15,14 @@ class JwtProviderTest {
     @Autowired
     private JwtProvider jwtProvider;
 
+
     @Test
     void createToken() {
 
         User user = User.builder()
-                .uid("a133")
+                .uid("a101")
                 .name("김유신")
-                .birth("1999-11-11")
+                .birth("1990-09-09")
                 .role("ADMIN")
                 .build();
 
@@ -31,15 +32,13 @@ class JwtProviderTest {
 
     @Test
     void getClaims() {
-        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkbmpzcmxkdXMwMUBnbWFpbC5jb20iLCJpYXQiOjE3MjYxMjMxMzEsImV4cCI6MTcyNjIwOTUzMSwidXNlcm5hbWUiOiJhMTMzIiwicm9sZSI6IkFETUlOIn0.wHPq4x3eGk7LF5CiBKB7rIlX3RPb0G6Xp2r_oKFRalM\n";
+        String token = "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjaGhhazA1MDNAZ21haWwuY29tIiwiaWF0IjoxNzI2MTI3MDAxLCJleHAiOjE3MjYyMTM0MDEsInVzZXJuYW1lIjoiYTEwMSIsInJvbGUiOiJBRE1JTiJ9.C0zkty9ymYgN24SDXIMdU2QWZQYfe6r-2Eh1uo69vYU";
 
         Claims claims = jwtProvider.getClaims(token);
-        String username = (String) claims.get("username");
-        String role = (String) claims.get("role");
+        String username = claims.get("username", String.class);
+        String role = claims.get("role", String.class);
 
-        System.out.println(username + " " + role);
-
-
+        System.out.println(username + ", " + role);
     }
 
     @Test
@@ -48,16 +47,13 @@ class JwtProviderTest {
 
     @Test
     void validateToken() {
-
-        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkbmpzcmxkdXMwMUBnbWFpbC5jb20iLCJpYXQiOjE3MjYxMjMxMzEsImV4cCI6MTcyNjEyMzEzMSwidXNlcm5hbWUiOiJhMTMzIiwicm9sZSI6IkFETUlOIn0.Yt8h_4382zFYfNiPRJw1lhEm3nUNVEzZ6XEscY3D3Xs";
+        String token = "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjaGhhazA1MDNAZ21haWwuY29tIiwiaWF0IjoxNzI2MTI3MDAxLCJleHAiOjE3MjYxMjcwMDEsInVzZXJuYW1lIjoiYTEwMSIsInJvbGUiOiJBRE1JTiJ9.g55qkmiCRANQaIUZB53XE4RlfjsxvNZhBGzKoZOv5_4";
 
         try {
             jwtProvider.validateToken(token);
             System.out.println("토큰 이상 없음");
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
-
     }
 }
